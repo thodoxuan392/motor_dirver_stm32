@@ -1,0 +1,6 @@
+../Core/Src/app_softPwm.c:24:6:SOFTPWM_init	8	static
+../Core/Src/app_softPwm.c:44:6:SOFTPWW_clearDutyCycle	16	static
+../Core/Src/app_softPwm.c:48:6:SOFTPWW_clearAllDutyCycle	8	static
+../Core/Src/app_softPwm.c:54:13:SOFTPWM_initTimer	32	static
+../Core/Src/app_softPwm.c:85:13:SOFTPWM_initDMA	16	static
+../Core/Src/app_softPwm.c:105:19:SOFTPWM_portToDMABuffer	16	static

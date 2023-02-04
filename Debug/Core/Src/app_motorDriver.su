@@ -1,0 +1,2 @@
+../Core/Src/app_motorDriver.c:41:6:MOTORDRIVER_init	56	static
+../Core/Src/app_motorDriver.c:64:6:MOTORDRIVER_setSpeed	40	static
