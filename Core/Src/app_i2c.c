@@ -21,6 +21,10 @@ static uint8_t buffer_head = 0;
 // I2C Tx Complete
 bool tx_complete = true;
 
+// I2C Temporatory
+static uint8_t rx_temp;
+static uint8_t tx_temp;
+
 // Internal Function
 bool I2C_init(){
 	hi2c1.Instance = I2C1;
@@ -90,15 +94,15 @@ void HAL_I2C_AddrCallback(I2C_HandleTypeDef *hi2c, uint8_t TransferDirection, ui
 {
 	switch (TransferDirection) {
 		case I2C_DIRECTION_TRANSMIT:
-			if (HAL_I2C_Slave_Seq_Receive_IT(hi2c, &buffer, 1, I2C_FIRST_FRAME) != HAL_OK) {
+			if (HAL_I2C_Slave_Seq_Receive_IT(hi2c, &rx_temp, 1, I2C_FIRST_FRAME) != HAL_OK) {
 				Error_Handler();
 			}
-		break;
+			break;
 		case I2C_DIRECTION_RECEIVE:
-			if (HAL_I2C_Slave_Seq_Transmit_IT(hi2c, tx_buffer, 1, I2C_LAST_FRAME) != HAL_OK) {
+			if (HAL_I2C_Slave_Seq_Transmit_IT(hi2c, &tx_temp, 1, I2C_LAST_FRAME) != HAL_OK) {
 				Error_Handler();
 			}
-		break;
+			break;
 		default:
 			break;
 	}
@@ -107,7 +111,7 @@ void HAL_I2C_AddrCallback(I2C_HandleTypeDef *hi2c, uint8_t TransferDirection, ui
 // RxCallback
 void HAL_I2C_SlaveRxCpltCallback(I2C_HandleTypeDef *hi2c)
 {
-	if (HAL_I2C_Slave_Sequential_Receive_IT(hi2c, &rx_temp, 1, I2C_FIRST_AND_NEXT_FRAME) != HAL_OK) {
+	if (HAL_I2C_Slave_Sequential_Receive_IT(hi2c, &rx_temp, 1, I2C_FIRST_FRAME) != HAL_OK) {
 		Error_Handler();
 	}
 }

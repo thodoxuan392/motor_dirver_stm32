@@ -11,6 +11,11 @@
 #include "stdint.h"
 #include "stdbool.h"
 
+enum{
+	FORWARD = 0,
+	BACKWARD = 1
+};
+
 typedef enum{
 	MOTOR_A = 0,
 	MOTOR_B,

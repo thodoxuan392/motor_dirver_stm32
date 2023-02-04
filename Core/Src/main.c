@@ -42,13 +42,13 @@
 /* USER CODE END PM */
 
 /* Private variables ---------------------------------------------------------*/
+
 /* USER CODE BEGIN PV */
 
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
-
 /* USER CODE BEGIN PFP */
 
 /* USER CODE END PFP */
@@ -82,22 +82,27 @@ int main(void)
 
   /* USER CODE BEGIN SysInit */
   I2C_init();
-  SOFTPWM_init();
   MOTORDRIVER_init();
+  SOFTPWM_init();
   FSM_init();
-
   /* USER CODE END SysInit */
 
   /* Initialize all configured peripherals */
   /* USER CODE BEGIN 2 */
+  uint8_t speedPercent = 20;
+  MOTORDRIVER_setSpeed(MOTOR_A, BACKWARD, speedPercent);
+  MOTORDRIVER_setSpeed(MOTOR_B, BACKWARD, speedPercent);
+  MOTORDRIVER_setSpeed(MOTOR_C, BACKWARD, speedPercent);
+  MOTORDRIVER_setSpeed(MOTOR_D, BACKWARD, speedPercent);
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-    /* USER CODE END WHILE */
 	  FSM_run();
+    /* USER CODE END WHILE */
+
     /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */
@@ -144,10 +149,6 @@ void SystemClock_Config(void)
     Error_Handler();
   }
 }
-/* USER CODE BEGIN 4 */
-
-/* USER CODE END 4 */
-
 /**
   * @brief  This function is executed in case of error occurrence.
   * @retval None

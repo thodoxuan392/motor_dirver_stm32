@@ -7,6 +7,7 @@
 
 #include "main.h"
 #include "app_motorDriver.h"
+#include "app_softPwm.h"
 
 
 typedef struct {
@@ -69,7 +70,7 @@ bool MOTORDRIVER_setSpeed(MotorLine_t motorLine, uint8_t direction, uint8_t spee
 	// Get Motor from MotorEntry
 	MOTOR_t motor =	motorEntry[motorLine];
 	// Check Direction
-	if(direction){
+	if(direction == FORWARD){
 		SOFTPWM_setDutyCycle(motor.motor1.port, motor.motor1.pin, speedPercent);
 		SOFTPWM_setDutyCycle(motor.motor2.port, motor.motor2.pin, 0);
 	}else{
