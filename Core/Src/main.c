@@ -82,6 +82,10 @@ int main(void)
 
   /* USER CODE BEGIN SysInit */
   I2C_init();
+  SOFTPWM_init();
+  MOTORDRIVER_init();
+  FSM_init();
+
   /* USER CODE END SysInit */
 
   /* Initialize all configured peripherals */
@@ -93,7 +97,7 @@ int main(void)
   while (1)
   {
     /* USER CODE END WHILE */
-	  I2C_run();
+	  FSM_run();
     /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */

@@ -5,6 +5,7 @@
  *      Author: xuanthodo
  */
 
+#include "stdio.h"
 #include "app_fsm.h"
 #include "app_i2c.h"
 

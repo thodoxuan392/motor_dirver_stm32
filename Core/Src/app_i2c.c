@@ -13,11 +13,12 @@
 
 I2C_HandleTypeDef hi2c1;
 
+// I2C Buffer
 static I2CData_t buffer[I2C_BUFFER_LEN];
 static uint8_t buffer_tail = 0;
 static uint8_t buffer_head = 0;
 
-// Tx Complete
+// I2C Tx Complete
 bool tx_complete = true;
 
 // Internal Function
@@ -74,10 +75,13 @@ bool I2C_receive_data(I2CData_t* data){
 }
 
 bool I2C_send_data(I2CData_t *data){
+	// While for Tx Complete
+	while(!tx_complete){};
 	// Convert to raw data
 	uint8_t *rawData = (uint8_t*)data;
 	uint8_t rawDataLen = sizeof(I2CData_t);
 	// Send Data
+	tx_complete = false;
 	HAL_I2C_Slave_Seq_Transmit_IT(&hi2c1, rawData, rawDataLen, I2C_LAST_FRAME);
 	return true;
 }
@@ -111,7 +115,7 @@ void HAL_I2C_SlaveRxCpltCallback(I2C_HandleTypeDef *hi2c)
 // TxCallback
 void HAL_I2C_SlaveTxCpltCallback(I2C_HandleTypeDef *hi2c)
 {
-	uint8_t temp = tx_buffer[0];
+	tx_complete = true;
 }
 
 void HAL_I2C_ListenCpltCallback(I2C_HandleTypeDef *hi2c) {
