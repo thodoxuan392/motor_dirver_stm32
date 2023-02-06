@@ -7,6 +7,7 @@
 
 #include "main.h"
 #include "stdio.h"
+#include "string.h"
 #include "app_softPwm.h"
 
 #define PWM_SAMPLE	100
@@ -15,7 +16,7 @@ static uint32_t pwmBufferPortA[PWM_SAMPLE];
 static uint32_t pwmBufferPortB[PWM_SAMPLE];
 
 static bool SOFTPWM_initTimer();
-
+static void SOFTPWM_updateToGpio();
 static uint32_t * SOFTPWM_portToBuffer(GPIO_TypeDef * port);
 
 TIM_HandleTypeDef htim3;
@@ -101,10 +102,14 @@ static uint32_t * SOFTPWM_portToBuffer(GPIO_TypeDef * port){
 	return NULL;
 }
 
+static void SOFTPWM_updateToGpio(){
+	static uint8_t idx = 0;
+	GPIOA->BSRR = pwmBufferPortA[idx];
+	GPIOB->BSRR = pwmBufferPortB[idx];
+	idx = (idx + 1) % PWM_SAMPLE;
+}
+
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 {
-	static uint8_t idx = 0;
-	GPIOA->BSRR |= pwmBufferPortA[idx];
-	GPIOB->BSRR |= pwmBufferPortB[idx];
-	idx = (idx + 1) % PWM_SAMPLE;
+	SOFTPWM_updateToGpio();
 }

@@ -71,7 +71,7 @@ int main(void)
   /* MCU Configuration--------------------------------------------------------*/
 
   /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
-  HAL_Init();
+	HAL_Init();
 
   /* USER CODE BEGIN Init */
 
@@ -89,7 +89,7 @@ int main(void)
 
   /* Initialize all configured peripherals */
   /* USER CODE BEGIN 2 */
-  uint8_t speedPercent = 20;
+  uint8_t speedPercent = 0;
   MOTORDRIVER_setSpeed(MOTOR_A, BACKWARD, speedPercent);
   MOTORDRIVER_setSpeed(MOTOR_B, BACKWARD, speedPercent);
   MOTORDRIVER_setSpeed(MOTOR_C, BACKWARD, speedPercent);

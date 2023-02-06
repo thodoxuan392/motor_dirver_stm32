@@ -33,7 +33,8 @@ bool FSM_run(){
 void FSM_wait_i2c_request(){
 	// Get I2C Request -> Static for ignore release stack because it'called many time
 	static I2CData_t i2cData;
-	if(I2C_receive_data(&i2cData)){
+	bool ret = I2C_receive_data(&i2cData);
+	if(ret){
 		// Get MotorLine
 		uint8_t motorLine = i2cData.address;
 		// Get Motor Direction
