@@ -34,7 +34,7 @@ uint8_t tx_temp[3] = {0};
 bool I2C_init(){
 	hi2c1.Instance = I2C1;
 	hi2c1.Init.Timing = 0x2000090E;
-	hi2c1.Init.OwnAddress1 = 64;
+	hi2c1.Init.OwnAddress1 = 96;
 	hi2c1.Init.AddressingMode = I2C_ADDRESSINGMODE_7BIT;
 	hi2c1.Init.DualAddressMode = I2C_DUALADDRESS_DISABLE;
 	hi2c1.Init.OwnAddress2 = 0;
