@@ -22,7 +22,7 @@ static uint32_t * SOFTPWM_portToBuffer(GPIO_TypeDef * port);
 TIM_HandleTypeDef htim3;
 
 bool SOFTPWM_init(){
-	// Init Timer for Trigger DMA
+	// Init Timer
 	if(!SOFTPWM_initTimer()){
 		return false;
 	}
@@ -30,9 +30,9 @@ bool SOFTPWM_init(){
 }
 
 bool SOFTPWM_setDutyCycle(GPIO_TypeDef * port , uint32_t pin, uint8_t dutyCycle){
-	// Get dmaBuffer from GPIO Port
+	// Get pwmBuffer from GPIO Port
 	uint32_t *pwmBuffer = SOFTPWM_portToBuffer(port);
-	// Fill PWM Data to DMA Buffer at Pin
+	// Fill PWM Data
 	for (uint32_t i = 0;  i < PWM_SAMPLE; ++ i) {
 		if(i < dutyCycle){
 			// Set Pin
