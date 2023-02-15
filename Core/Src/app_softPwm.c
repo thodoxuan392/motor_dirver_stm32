@@ -32,8 +32,6 @@ bool SOFTPWM_init(){
 bool SOFTPWM_setDutyCycle(GPIO_TypeDef * port , uint32_t pin, uint8_t dutyCycle){
 	// Get dmaBuffer from GPIO Port
 	uint32_t *pwmBuffer = SOFTPWM_portToBuffer(port);
-	(void)pwmBufferPortA;
-	(void)pwmBufferPortB;
 	// Fill PWM Data to DMA Buffer at Pin
 	for (uint32_t i = 0;  i < PWM_SAMPLE; ++ i) {
 		if(i < dutyCycle){
@@ -67,7 +65,7 @@ static bool SOFTPWM_initTimer(){
 	htim3.Instance = TIM3;
 	htim3.Init.Prescaler = 79;
 	htim3.Init.CounterMode = TIM_COUNTERMODE_UP;
-	htim3.Init.Period = 9;
+	htim3.Init.Period = 4;
 	htim3.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
 	htim3.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_ENABLE;
 	if (HAL_TIM_Base_Init(&htim3) != HAL_OK)
