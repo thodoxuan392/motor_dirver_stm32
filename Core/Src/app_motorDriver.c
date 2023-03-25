@@ -40,6 +40,7 @@ static MOTOR_t motorEntry[] = {
 };
 
 // Internal Function
+static MotorLine_t MOTORDRIVER_modifyMotorLine(MotorLine_t motorLine);
 
 bool MOTORDRIVER_init(){
 	// Enable Clock
@@ -69,8 +70,10 @@ bool MOTORDRIVER_setSpeed(MotorLine_t motorLine, uint8_t direction, uint8_t spee
 	if(speedPercent > 100){
 		return false;
 	}
+	// Get MotorLine after Modify
+	MotorLine_t new_motorLine = MOTORDRIVER_modifyMotorLine(motorLine);
 	// Get Motor from MotorEntry
-	MOTOR_t motor =	motorEntry[motorLine];
+	MOTOR_t motor =	motorEntry[new_motorLine];
 	// Check Direction
 	if(direction == FORWARD){
 		SOFTPWM_setDutyCycle(motor.motor1.port, motor.motor1.pin, speedPercent);
@@ -81,10 +84,27 @@ bool MOTORDRIVER_setSpeed(MotorLine_t motorLine, uint8_t direction, uint8_t spee
 	}
 }
 
-
-
-
-
+// Internal Function
+static MotorLine_t MOTORDRIVER_modifyMotorLine(MotorLine_t motorLine){
+	MotorLine_t ret_motorLine;
+	switch (motorLine) {
+		case 0:
+			ret_motorLine = 1;
+			break;
+		case 1:
+			ret_motorLine = 0;
+			break;
+		case 2:
+			ret_motorLine = 3;
+			break;
+		case 3:
+			ret_motorLine = 2;
+			break;
+		default:
+			break;
+	}
+	return ret_motorLine;
+}
 
 
 

@@ -134,7 +134,7 @@ void HAL_I2C_SlaveRxCpltCallback(I2C_HandleTypeDef *hi2c)
 				break;
 		}
 		buffer_idx ++;
-		if(buffer_idx >= sizeof(I2CData_t) - 1){
+		if(buffer_idx >= sizeof(I2CData_t)){
 			buffer_head = (buffer_head + 1) % I2C_BUFFER_LEN;
 			i2c_state = STATE_I2C_STOP;
 			buffer_idx = 0;
