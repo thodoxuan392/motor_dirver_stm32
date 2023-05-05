@@ -8,7 +8,7 @@ This firmware allow user send i2c command to drive 4 motor.
 
 - I2C Command have 3 bytes:
     | # | Param  |
-    |---|---|---|
+    |---|---|
     |  0  | Motor Type  | 
     |  1  | Motor Index  | 
     |  2 |  Direction | 
