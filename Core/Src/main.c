@@ -17,12 +17,13 @@
   */
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
+#include <app_dcMotor.h>
 #include "main.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "app_i2c.h"
-#include "app_softPwm.h"
+#include "app_timer.h"
 #include "app_motorDriver.h"
 #include "app_fsm.h"
 /* USER CODE END Includes */
@@ -82,20 +83,15 @@ int main(void)
 
   /* USER CODE BEGIN SysInit */
   I2C_init();
+  TIMER_init();
   MOTORDRIVER_init();
-  SOFTPWM_init();
+  DCMOTOR_init();
+  STEPMOTOR_init();
   FSM_init();
   /* USER CODE END SysInit */
-
   /* Initialize all configured peripherals */
   /* USER CODE BEGIN 2 */
-  uint8_t speedPercent = 0;
-  MOTORDRIVER_setSpeed(MOTOR_A, BACKWARD, speedPercent);
-  MOTORDRIVER_setSpeed(MOTOR_B, BACKWARD, speedPercent);
-  MOTORDRIVER_setSpeed(MOTOR_C, BACKWARD, speedPercent);
-  MOTORDRIVER_setSpeed(MOTOR_D, BACKWARD, speedPercent);
   /* USER CODE END 2 */
-
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)

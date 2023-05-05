@@ -28,7 +28,7 @@ static uint8_t buffer_idx = 0;
 static uint8_t i2c_state;
 
 // Tx Temporatory
-uint8_t tx_temp[3] = {0};
+uint8_t tx_temp[3] = {1,2,3,4};
 
 // Internal Function
 bool I2C_init(){
@@ -40,7 +40,7 @@ bool I2C_init(){
 	hi2c1.Init.OwnAddress2 = 0;
 	hi2c1.Init.OwnAddress2Masks = I2C_OA2_NOMASK;
 	hi2c1.Init.GeneralCallMode = I2C_GENERALCALL_DISABLE;
-	hi2c1.Init.NoStretchMode = I2C_NOSTRETCH_ENABLE;
+	hi2c1.Init.NoStretchMode = I2C_NOSTRETCH_DISABLE;
 	if (HAL_I2C_Init(&hi2c1) != HAL_OK)
 	{
 		return false;
@@ -98,8 +98,8 @@ void HAL_I2C_AddrCallback(I2C_HandleTypeDef *hi2c, uint8_t TransferDirection, ui
 			// Reset I2C Data State
 			i2c_state = STATE_I2C_GET_DATA;
 			// Reset Idx for I2C Data
-			buffer_idx = 0;
-			if (HAL_I2C_Slave_Seq_Receive_IT(hi2c, &buffer[buffer_head].address, 1, I2C_FIRST_AND_NEXT_FRAME) != HAL_OK) {
+			buffer_idx = 1;
+			if (HAL_I2C_Slave_Seq_Receive_IT(hi2c, &buffer[buffer_head].data[0], 1, I2C_FIRST_FRAME) != HAL_OK) {
 				Error_Handler();
 			}
 			break;
@@ -118,26 +118,31 @@ void HAL_I2C_SlaveRxCpltCallback(I2C_HandleTypeDef *hi2c)
 {
 	if(i2c_state == STATE_I2C_GET_DATA){
 		switch (buffer_idx) {
-			case 0:
-				// Get Data Byte 0
-				if (HAL_I2C_Slave_Seq_Receive_IT(hi2c, &buffer[buffer_head].data[0], 1, I2C_NEXT_FRAME) != HAL_OK) {
+			case 1:
+				// Get Data Byte 1
+				if (HAL_I2C_Slave_Seq_Receive_IT(hi2c, &buffer[buffer_head].data[buffer_idx], 1, I2C_NEXT_FRAME) != HAL_OK) {
 					Error_Handler();
 				}
 				break;
-			case 1:
-				// Get Data Byte 1
-				if (HAL_I2C_Slave_Seq_Receive_IT(hi2c, &buffer[buffer_head].data[1], 1, I2C_LAST_FRAME) != HAL_OK) {
+			case 2:
+				// Get Data Byte 2
+				if (HAL_I2C_Slave_Seq_Receive_IT(hi2c, &buffer[buffer_head].data[buffer_idx], 1, I2C_NEXT_FRAME) != HAL_OK) {
+					Error_Handler();
+				}
+				break;
+			case 3:
+				// Get Data Byte 3
+				if (HAL_I2C_Slave_Seq_Receive_IT(hi2c, &buffer[buffer_head].data[buffer_idx], 1, I2C_LAST_FRAME) != HAL_OK) {
 					Error_Handler();
 				}
 				break;
 			default:
 				break;
 		}
-		buffer_idx ++;
-		if(buffer_idx >= sizeof(I2CData_t)){
+		buffer_idx++;
+		if(buffer_idx >= sizeof(I2CData_t) + 1){
 			buffer_head = (buffer_head + 1) % I2C_BUFFER_LEN;
 			i2c_state = STATE_I2C_STOP;
-			buffer_idx = 0;
 		}
 	}
 }

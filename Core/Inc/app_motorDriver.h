@@ -11,22 +11,20 @@
 #include "stdint.h"
 #include "stdbool.h"
 
-enum{
-	FORWARD = 0,
-	BACKWARD = 1
-};
+#define NUMBER_OF_STEP
 
-typedef enum{
-	MOTOR_A = 0,
-	MOTOR_B,
-	MOTOR_C,
-	MOTOR_D
-}MotorLine_t;
+
+
+typedef enum {
+	DC_MOTOR,
+	STEP_MOTOR
+}MotorType_t;
 
 bool MOTORDRIVER_init();
 
-bool MOTORDRIVER_setSpeed(MotorLine_t motor, uint8_t direction, uint8_t speedPercent);
+bool MOTORDRIVER_setSpeed(MotorType_t type, uint8_t motorLine, uint8_t direction, uint8_t speedPercent);
 
+bool MOTORDRIVER_run();
 
 
 #endif /* INC_APP_MOTORDRIVER_H_ */

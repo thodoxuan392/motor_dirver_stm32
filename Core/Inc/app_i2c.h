@@ -11,8 +11,7 @@
 #include "stdbool.h"
 
 typedef struct {
-	uint8_t	address;
-	uint8_t data[2];
+	uint8_t	data[4];
 }I2CData_t;
 
 
