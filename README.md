@@ -7,12 +7,12 @@ This firmware allow user send i2c command to drive 4 motor.
 ## I2C Command Table
 
 - I2C Command have 3 bytes:
-    | # | Param  | Range  |
+    | # | Param  |
     |---|---|---|
-    |  0  | Motor Type  |  0 -> 3 | 
-    |  1  | Motor Index  |  0 -> 3 | 
-    |  2 |  Direction | 0 -> 1  | 
-    |  3 |  Speed |0 -> 100    |
+    |  0  | Motor Type  | 
+    |  1  | Motor Index  | 
+    |  2 |  Direction | 
+    |  3 |  Speed |
 
 - Motor Type: DC_MOTOR (0x00) , STEP_MOTOR (0x01)
 - Motor Index: DC_MOTOR (0->3) , STEP_MOTOR (0:1)
