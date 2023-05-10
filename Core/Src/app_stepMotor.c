@@ -104,15 +104,6 @@ bool STEPMOTOR_setSpeed(MotorLine_Step_t motorLine, uint16_t number_step, uint8_
 	if(speed == 0){
 		stepMotor_state_table[motorLine].enable = false;
 	}else{
-		stepMotor_state_table[motorLine].enable = true;
-		stepMotor_state_table[motorLine].number_step = number_step;
-		stepMotor_state_table[motorLine].direction = direction;
-		stepMotor_state_table[motorLine].mode = SPEED;
-		stepMotor_state_table[motorLine].style = style;
-		step_delay_microsecond = 60000000 / number_step / speed;
-		stepMotor_state_table[motorLine].counter_delay = step_delay_microsecond / TIMER_CYCLE;
-		stepMotor_state_table[motorLine].counter_index = 0;
-		stepMotor_state_table[motorLine].current_step = 0;
 		switch (style) {
 			case SINGLE:
 				stepMotor_state_table[motorLine].max_step = SINGLE_STEP_MAX;
@@ -129,6 +120,14 @@ bool STEPMOTOR_setSpeed(MotorLine_Step_t motorLine, uint16_t number_step, uint8_
 			default:
 				break;
 		}
+		stepMotor_state_table[motorLine].enable = true;
+		stepMotor_state_table[motorLine].number_step = number_step;
+		stepMotor_state_table[motorLine].direction = direction;
+		stepMotor_state_table[motorLine].mode = SPEED;
+		stepMotor_state_table[motorLine].style = style;
+		step_delay_microsecond = 60000000 / number_step / speed * DOUBLE_STEP_MAX / stepMotor_state_table[motorLine].max_step;
+		stepMotor_state_table[motorLine].counter_delay = step_delay_microsecond / TIMER_CYCLE;
+		stepMotor_state_table[motorLine].counter_index = 0;
 	}
 }
 
@@ -146,23 +145,13 @@ bool STEPMOTOR_step(MotorLine_Step_t motorLine, uint16_t number_step, uint8_t di
 	if(step == 0){
 		stepMotor_state_table[motorLine].enable = false;
 	}else{
-		stepMotor_state_table[motorLine].enable = true;
-		stepMotor_state_table[motorLine].number_step = number_step;
-		stepMotor_state_table[motorLine].direction = direction;
-		stepMotor_state_table[motorLine].mode = STEP;
-		stepMotor_state_table[motorLine].style = style;
-		step_delay_microsecond = 60000000 / number_step / SPEED_DEFAULT;
-		stepMotor_state_table[motorLine].counter_delay = step_delay_microsecond / TIMER_CYCLE;
-		stepMotor_state_table[motorLine].counter_index = 0;
-		stepMotor_state_table[motorLine].current_step = 0;
-
 		switch (style) {
 			case SINGLE:
 				stepMotor_state_table[motorLine].run_step = step / 2;
 				stepMotor_state_table[motorLine].max_step = SINGLE_STEP_MAX;
 				break;
 			case DOUBLE:
-				stepMotor_state_table[motorLine].run_step = step * 2;
+				stepMotor_state_table[motorLine].run_step = step;
 				stepMotor_state_table[motorLine].max_step = DOUBLE_STEP_MAX;
 				break;
 			case INTERLEAVE:
@@ -175,6 +164,14 @@ bool STEPMOTOR_step(MotorLine_Step_t motorLine, uint16_t number_step, uint8_t di
 			default:
 				break;
 		}
+		stepMotor_state_table[motorLine].enable = true;
+		stepMotor_state_table[motorLine].number_step = number_step;
+		stepMotor_state_table[motorLine].direction = direction;
+		stepMotor_state_table[motorLine].mode = STEP;
+		stepMotor_state_table[motorLine].style = style;
+		step_delay_microsecond = 60000000 / number_step / SPEED_DEFAULT * DOUBLE_STEP_MAX / stepMotor_state_table[motorLine].max_step;
+		stepMotor_state_table[motorLine].counter_delay = step_delay_microsecond / TIMER_CYCLE;
+		stepMotor_state_table[motorLine].counter_index = 0;
 	}
 }
 

@@ -10,7 +10,7 @@
 
 #include "stdbool.h"
 
-#define TIMER_CYCLE	200 	//microsecond
+#define TIMER_CYCLE	50 	//microsecond
 
 typedef void(*timer_callback)();
 
