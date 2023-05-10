@@ -22,9 +22,5 @@ typedef enum {
 
 bool MOTORDRIVER_init();
 
-bool MOTORDRIVER_setSpeed(MotorType_t type, uint8_t motorLine, uint8_t direction, uint8_t speedPercent);
-
-bool MOTORDRIVER_run();
-
 
 #endif /* INC_APP_MOTORDRIVER_H_ */

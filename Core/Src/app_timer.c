@@ -12,8 +12,7 @@
 
 TIM_HandleTypeDef htim3;
 
-static timer_callback fn_callback_table[FN_CALLBACK_MAX];
-static uint8_t fn_callback_index = 0;
+static timer_callback fn_callback = NULL;
 
 bool TIMER_init(){
 	TIM_ClockConfigTypeDef sClockSourceConfig = {0};
@@ -49,17 +48,14 @@ bool TIMER_init(){
 }
 
 bool TIMER_attach_callback(timer_callback cb_func){
-	if(fn_callback_index < FN_CALLBACK_MAX){
-		fn_callback_table[fn_callback_index++] = cb_func;
-	}
+	fn_callback = cb_func;
 }
 
 
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 {
-	for (int var = 0; var < fn_callback_index; ++var) {
-		fn_callback_table[var]();
-	}
+	if(fn_callback)
+		fn_callback();
 }
 
 

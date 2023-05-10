@@ -12,7 +12,11 @@
 #include "stdbool.h"
 #include "app_common.h"
 
-#define NUMBER_OF_STEP		200
+#define SPEED_DEFAULT	100	// rpm
+#define SINGLE_STEP_MAX		2
+#define DOUBLE_STEP_MAX		4
+#define INTERLEAVE_STEP_MAX	8
+#define MICRO_STEP_MAX		16
 
 typedef struct {
 	IO_t motor1;
@@ -27,9 +31,24 @@ typedef enum {
 	MOTOR_STEP_MAX
 }MotorLine_Step_t;
 
+typedef enum {
+	SINGLE = 0,
+	DOUBLE,
+	INTERLEAVE,
+	MICROSTEP,
+	STYLE_MAX
+}StepperStyle_t;
+
+
+typedef enum {
+	SPEED = 0,
+	STEP
+}StepperMode_t;
+
 bool STEPMOTOR_init();
 
-bool STEPMOTOR_setSpeed(MotorLine_Step_t motorLine, uint8_t direction, uint8_t speed);
+bool STEPMOTOR_setSpeed(MotorLine_Step_t motorLine, uint16_t number_step, uint8_t direction, uint16_t speed, StepperStyle_t style);
+bool STEPMOTOR_step(MotorLine_Step_t motorLine, uint16_t number_step, uint8_t direction, uint16_t step, StepperStyle_t style);
 
 
 #endif /* INC_APP_STEPMOTOR_H_ */

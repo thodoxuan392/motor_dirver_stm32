@@ -26,11 +26,6 @@ static IO_t io_table[] = {
 	{GPIOA , GPIO_PIN_3}  // Motor D2
 };
 
-// Internal Function
-static MotorLine_DC_t MOTORDRIVER_DC_modifyMotorLine(MotorLine_DC_t motorLine);
-static void MOTORDRIVER_DC_setSpeed(MotorLine_DC_t motorLine, uint8_t direction, uint8_t speedPercent);
-static void MOTORDRIVER_Stepper_setSpeed(MotorLine_Step_t motorLine, uint8_t direction, uint8_t speedPercent);
-
 
 bool MOTORDRIVER_init(){
 	// Enable Clock
@@ -47,35 +42,6 @@ bool MOTORDRIVER_init(){
 		GPIO_InitStruct.Pin = io_table[io_id].pin;
 		HAL_GPIO_Init(io_table[io_id].port,&GPIO_InitStruct);
 	}
-}
-
-
-
-bool MOTORDRIVER_setSpeed(MotorType_t type, uint8_t motorLine, uint8_t direction, uint8_t speed){
-	switch (type) {
-		case DC_MOTOR:
-			MOTORDRIVER_DC_setSpeed(motorLine, direction, speed);
-			break;
-		case STEP_MOTOR:
-			MOTORDRIVER_Stepper_setSpeed(motorLine, direction, speed);
-			break;
-		default:
-			break;
-	}
-
-}
-
-bool MOTORDRIVER_run(){
-	// Nothing to do
-}
-
-
-static void MOTORDRIVER_DC_setSpeed(MotorLine_DC_t motorLine, uint8_t direction, uint8_t speed){
-	DCMOTOR_setSpeed(motorLine, direction, speed);
-}
-static void MOTORDRIVER_Stepper_setSpeed(MotorLine_Step_t motorLine, uint8_t direction, uint8_t speed){
-	// Get Motor from MotorEntry
-	STEPMOTOR_setSpeed(motorLine, direction, speed);
 }
 
 

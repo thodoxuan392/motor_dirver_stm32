@@ -26,6 +26,6 @@ typedef enum{
 
 bool DCMOTOR_init();
 
-bool DCMOTOR_setSpeed(MotorLine_DC_t motorLine, uint8_t direction, uint8_t speed);
+bool DCMOTOR_setSpeed(MotorLine_DC_t motorLine, uint8_t direction, uint16_t speed);
 
 #endif /* INC_APP_DCMOTOR_H_ */
