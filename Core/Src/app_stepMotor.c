@@ -155,15 +155,18 @@ bool STEPMOTOR_step(MotorLine_Step_t motorLine, uint16_t number_step, uint8_t di
 		stepMotor_state_table[motorLine].counter_delay = step_delay_microsecond / TIMER_CYCLE;
 		stepMotor_state_table[motorLine].counter_index = 0;
 		stepMotor_state_table[motorLine].current_step = 0;
-		stepMotor_state_table[motorLine].run_step = step;
+
 		switch (style) {
 			case SINGLE:
+				stepMotor_state_table[motorLine].run_step = step / 2;
 				stepMotor_state_table[motorLine].max_step = SINGLE_STEP_MAX;
 				break;
 			case DOUBLE:
+				stepMotor_state_table[motorLine].run_step = step * 2;
 				stepMotor_state_table[motorLine].max_step = DOUBLE_STEP_MAX;
 				break;
 			case INTERLEAVE:
+				stepMotor_state_table[motorLine].run_step = step * 2;
 				stepMotor_state_table[motorLine].max_step = INTERLEAVE_STEP_MAX;
 				break;
 			case MICROSTEP:
